@@ -1,8 +1,14 @@
 import User from "../models/userModel.js";
+import Kelas from "../models/kelasModel.js";
 
 export async function getUsers(req, res){
     try {
-        const response = await User.findAll();
+        const response = await User.findAll({
+            include: {
+                model: Kelas,
+                as: "kelas"
+            }
+        });
 
         res.status(200).json(response); 
     } catch (error) {
@@ -16,6 +22,10 @@ export async function getUserById(req, res) {
         const response = await User.findOne({
             where: {
                 id : req.params.id
+            }, 
+            include: {
+                model: Kelas,
+                as: "kelas"
             }
         });
 
